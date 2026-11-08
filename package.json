@@ -1,0 +1,17 @@
+{
+  "name": "get-more-coffee",
+  "version": "1.0.0",
+  "private": true,
+  "description": "More Coffee (getmore.coffee): live offers from independent specialty coffee roasters in England & Wales.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "dependencies": {
+    "@vercel/functions": "^1.5.2",
+    "postgres": "^3.4.5"
+  }
+}
