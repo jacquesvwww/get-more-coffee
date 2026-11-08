@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', `public, s-maxage=${CONFIG.CACHE_SECONDS}, stale-while-revalidate=60`);
     res.status(200).json(data);
   } catch (err) {
-    console.error(err);
+    console.error('GET /api/deals failed:', err && (err.code || ''), err && err.message);
     res.setHeader('Cache-Control', 'no-store');
     res.status(500).json({ error: 'Could not load deals' });
   }
