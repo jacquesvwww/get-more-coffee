@@ -528,8 +528,11 @@
   function load() {
     // Opened as a local file (no API to call): show the demo data.
     if (location.protocol === 'file:') return init(demoData(), true);
-    fetch(window.GMC_API || '/api/deals')
-      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    // One automatic retry: a brief server or database hiccup shouldn't leave the page empty.
+    const load = () => fetch(window.GMC_API || '/api/deals')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+    load()
+      .catch(() => new Promise(res => setTimeout(res, 1500)).then(load))
       .then(d => init(d, false))
       .catch(() => {
         // Local preview without a database: demo data. Live site: a friendly error, never fake deals.
