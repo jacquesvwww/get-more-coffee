@@ -14,7 +14,7 @@
  *   continue       (internal) picks up a scrape that ran out of time
  */
 import { waitUntil } from '@vercel/functions';
-import { isAdmin, origin } from '../lib/auth.js';
+import { adminProblem, isAdmin, origin } from '../lib/auth.js';
 import { scrapeDue } from '../lib/scrape.js';
 import { q } from '../lib/db.js';
 import { clearBackoffs, purgeExpiredDeals, readBrands, removeOldDeals, resetLastScraped, setup, syncBrands } from '../lib/store.js';
@@ -22,7 +22,7 @@ import { clearBackoffs, purgeExpiredDeals, readBrands, removeOldDeals, resetLast
 const MAX_HOPS = 30; // safety net so a chain of follow-up calls can never loop forever
 
 export default async function handler(req, res) {
-  if (!isAdmin(req)) return res.status(401).json({ error: 'Unauthorised' });
+  if (!isAdmin(req)) return res.status(401).json({ error: 'Unauthorised', hint: adminProblem(req) });
   const action = String(req.query.action || 'status');
   const hop = Number(req.query.hop || 0);
 
