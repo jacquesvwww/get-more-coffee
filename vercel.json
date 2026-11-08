@@ -1,6 +1,18 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/(lib|db|test)/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/(README.md|package.json|package-lock.json|.env.example|.gitignore)",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "functions": {
     "api/*.js": {
       "maxDuration": 60
@@ -23,6 +35,14 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
         }
       ]
     },
